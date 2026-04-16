@@ -79,12 +79,20 @@ body{
 .section-title{font-size:16px;font-weight:600;line-height:24px;color:#212121;letter-spacing:-0.2px}
 .section-hint{font-size:14px;font-weight:500;line-height:22px;color:#757575;letter-spacing:-0.2px}
 
-/* ── Plan chip ── */
-.plan-chip{background:#fff;border:1px solid rgba(33,33,33,.07);border-radius:12px;padding:8px 16px}
-.plan-row{display:flex;align-items:center;gap:8px;padding:8px 0}
+/* ── Subscription chip ── */
+.plan-chip{background:#fff;border:1px solid rgba(33,33,33,.07);border-radius:12px;overflow:hidden}
+.plan-row{display:flex;align-items:center;gap:8px;padding:12px 16px}
+.plan-row + .plan-row{border-top:1px solid rgba(33,33,33,.07)}
 .plan-icon{width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.plan-name{flex:1;font-size:14px;font-weight:500;line-height:22px;color:#757575;letter-spacing:-0.2px}
+.plan-label{flex:1;font-size:14px;font-weight:500;line-height:22px;color:#757575;letter-spacing:-0.2px}
 .plan-value{font-size:14px;font-weight:600;line-height:22px;color:#212121;letter-spacing:-0.2px}
+.plan-iccid{font-size:14px;font-weight:600;line-height:22px;color:#212121;letter-spacing:-0.2px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.copy-btn{
+  width:20px;height:20px;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;cursor:pointer;opacity:.5;transition:opacity .15s;
+  background:none;border:none;padding:0;
+}
+.copy-btn:active{opacity:1}
 
 /* ── Issue cards ── */
 .issue-card{
@@ -113,7 +121,6 @@ body{
   color:#212121;letter-spacing:-0.2px;
   transition:font-size .1s,line-height .1s;
 }
-/* Title grows when selected */
 .issue-card.selected .issue-name{font-size:16px;line-height:24px}
 .issue-sub{font-size:14px;font-weight:500;line-height:22px;color:#757575;letter-spacing:-0.2px}
 
@@ -200,6 +207,24 @@ body{
 .reply-text{flex:1;min-width:0}
 .reply-name{font-size:14px;font-weight:500;line-height:22px;color:#212121;letter-spacing:-0.2px}
 .reply-sub{font-size:14px;font-weight:500;line-height:22px;color:#757575;letter-spacing:-0.2px}
+
+/* ── Email expand ── */
+.email-expand{
+  overflow:hidden;max-height:0;
+  opacity:0;
+  transition:max-height .22s ease,opacity .18s ease;
+}
+.reply-card.selected .email-expand{max-height:80px;opacity:1}
+.email-divider{height:1px;background:rgba(33,33,33,.07);margin:12px 0}
+.email-input{
+  width:100%;border:none;outline:none;
+  font-family:'Inter',sans-serif;
+  font-size:16px;font-weight:500;
+  line-height:24px;color:#212121;
+  letter-spacing:-0.2px;background:transparent;
+  display:block;
+}
+.email-input::placeholder{color:#bdbdbd}
 
 /* ── WhatsApp phone expand ── */
 .wa-expand{
@@ -348,12 +373,12 @@ body{
       <!-- Heading -->
       <div class="page-header">
         <h1 class="page-title">Get help</h1>
-        <p class="page-subtitle">Tell us what's happening and we'll get back to you.</p>
+        <p class="page-subtitle">Tell us what's going wrong and we'll help you fix it.</p>
       </div>
 
-      <!-- Your plan -->
+      <!-- Your subscription -->
       <div class="section">
-        <div class="section-title">Your plan</div>
+        <div class="section-title">Your subscription</div>
         <div class="plan-chip">
           <div class="plan-row">
             <div class="plan-icon">
@@ -363,14 +388,33 @@ body{
                 <rect x="2.5" y="8" width="4" height="2" rx="1" fill="#757575"/>
               </svg>
             </div>
-            <span class="plan-value">Unlimited</span>
+            <span class="plan-label">Plan</span>
+            <span class="plan-value">Standard</span>
+          </div>
+          <div class="plan-row">
+            <div class="plan-icon">
+              <svg width="14" height="17" viewBox="0 0 14 17" fill="none">
+                <path d="M1 14.5V2.5C1 1.67 1.67 1 2.5 1H9.12L13 5V14.5C13 15.33 12.33 16 11.5 16H2.5C1.67 16 1 15.33 1 14.5Z" stroke="#757575" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9 1V5H13" stroke="#757575" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                <rect x="3" y="7.5" width="8" height="5.5" rx="1.2" stroke="#757575" stroke-width="1.3"/>
+                <line x1="6.5" y1="7.5" x2="6.5" y2="13" stroke="#757575" stroke-width="1.3"/>
+              </svg>
+            </div>
+            <span class="plan-label">SIM ICCID</span>
+            <span class="plan-iccid">213761728368127638761</span>
+            <button class="copy-btn" onclick="copyIccid(event)" title="Copy ICCID">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <rect x="5" y="5" width="9" height="9" rx="1.5" stroke="#757575" stroke-width="1.3"/>
+                <path d="M3 11H2.5C1.67 11 1 10.33 1 9.5V2.5C1 1.67 1.67 1 2.5 1H9.5C10.33 1 11 1.67 11 2.5V3" stroke="#757575" stroke-width="1.3" stroke-linecap="round"/>
+              </svg>
+            </button>
           </div>
         </div>
       </div>
 
       <!-- What's the issue -->
       <div class="section">
-        <div class="section-title">What can we help with?</div>
+        <div class="section-title">What's the issue?</div>
 
         <!-- Billing issue -->
         <div class="issue-card" id="issue-billing"
@@ -378,11 +422,8 @@ body{
              data-placeholder="E.g. I was charged twice or a refund hasn't arrived">
           <div class="issue-row">
             <div class="issue-icon">
-              <svg width="20" height="16" viewBox="0 0 20 16" fill="none">
-                <rect x=".75" y=".75" width="18.5" height="14.5" rx="2.25" stroke="#757575" stroke-width="1.5"/>
-                <line x1=".75" y1="5.5" x2="19.25" y2="5.5" stroke="#757575" stroke-width="1.5"/>
-                <rect x="2.5" y="8.5" width="5" height="2" rx="1" fill="#757575"/>
-                <rect x="2.5" y="11.5" width="3" height="1.5" rx=".75" fill="#c8c8c8"/>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M5.77778 7.85186H13.037M5.77778 12H13.037M19.5 2H5.33333C4.44928 2 3.60143 2.35118 2.97632 2.97632C2.35118 3.60143 2 4.44928 2 5.33333V22L5.75 19.5L9.5 22L13.25 19.5L17 22V4.5C17 3.83697 17.2633 3.20107 17.7322 2.73223C18.201 2.2634 18.837 2 19.5 2ZM19.5 2C20.163 2 20.799 2.2634 21.2678 2.73223C21.7367 3.20107 22 3.83697 22 4.5V8.66667H17" stroke="#757575" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
             <div class="issue-text">
@@ -407,11 +448,14 @@ body{
              data-placeholder="E.g. Can't connect since this morning">
           <div class="issue-row">
             <div class="issue-icon">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <circle cx="10" cy="10" r="8.25" stroke="#757575" stroke-width="1.5"/>
-                <path d="M10 1.75c0 0-3 3.75-3 8.25s3 8.25 3 8.25" stroke="#757575" stroke-width="1.5"/>
-                <path d="M10 1.75c0 0 3 3.75 3 8.25s-3 8.25-3 8.25" stroke="#757575" stroke-width="1.5"/>
-                <line x1="1.75" y1="10" x2="18.25" y2="10" stroke="#757575" stroke-width="1.5"/>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <g clip-path="url(#clip-internet)">
+                  <path d="M4.61328 4.61341C6.5037 2.72297 9.11531 1.55371 12 1.55371C17.7695 1.55371 22.4464 6.23074 22.4464 12.0001C22.4464 14.8848 21.2772 17.4964 19.3868 19.3869M16.5734 21.3949C15.1921 22.0686 13.6402 22.4466 12 22.4466C6.23062 22.4466 1.55359 17.7696 1.55359 12.0001C1.55359 10.36 1.93159 8.80805 2.60524 7.42679" stroke="#757575" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M1.55359 12H7.98216M22.4464 12H12" stroke="#757575" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M7.98218 12.0001C8.17953 15.8203 9.58662 19.4787 12 22.4466C12.8641 21.3839 13.5992 20.2329 14.196 19.0176M15.4914 15.4915C15.7792 14.3538 15.9567 13.1847 16.0179 12.0001C15.8205 8.17998 14.4134 4.52154 12 1.55371C10.335 3.60124 9.14895 5.9775 8.50868 8.50878" stroke="#757575" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M1.55359 1.55371L22.4464 22.4466" stroke="#757575" stroke-width="1.5" stroke-linecap="round"/>
+                </g>
+                <defs><clipPath id="clip-internet"><rect width="24" height="24" fill="white"/></clipPath></defs>
               </svg>
             </div>
             <div class="issue-text">
@@ -436,10 +480,8 @@ body{
              data-placeholder="E.g. Error message when installing SIM">
           <div class="issue-row">
             <div class="issue-icon">
-              <svg width="16" height="20" viewBox="0 0 16 20" fill="none">
-                <path d="M2 0h8l5 5v13a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z" stroke="#757575" stroke-width="1.5"/>
-                <path d="M9 0v5h5" stroke="#757575" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-                <rect x="3.75" y="9.75" width="8.5" height="6.5" rx="1.5" stroke="#757575" stroke-width="1.5"/>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M13.4141 9.69231V18.9231M10.5859 18.9231V13.5385H7.75758M4.22223 19.1429V4.85714C4.22223 3.27918 5.43429 2 6.92932 2H14.496C14.8614 2 15.2127 2.15391 15.4761 2.42946L19.3438 6.47514C19.6211 6.7652 19.7778 7.16563 19.7778 7.58414V19.1429C19.7778 20.7208 18.5658 22 17.0707 22H6.92932C5.43429 22 4.22223 20.7208 4.22223 19.1429ZM7.75758 9.69231H16.2424V18.9231H7.75758V9.69231Z" stroke="#757575" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
             <div class="issue-text">
@@ -464,13 +506,12 @@ body{
              data-placeholder="E.g. My plan expired but auto-renewal didn't work">
           <div class="issue-row">
             <div class="issue-icon">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M17 10A7 7 0 1 1 3 10" stroke="#757575" stroke-width="1.5" stroke-linecap="round"/>
-                <polyline points="17,6.5 17,10 13.5,10" stroke="#757575" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M3.57179 6.61542C5.34883 3.83977 8.45947 2 11.9998 2C17.5228 2 21.9999 6.47719 21.9999 12.0001M20.428 17.3848C18.6509 20.1605 15.5403 22.0002 12 22.0002C6.47707 22.0002 1.99988 17.5231 1.99988 12.0001M3.53836 2.76924V6.61542H7.38454M20.4616 21.231V17.3848H16.6154" stroke="#757575" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
             <div class="issue-text">
-              <div class="issue-name">Plan &amp; renewal</div>
+              <div class="issue-name">Plan renewal</div>
               <div class="issue-sub">Expiry, auto-renewal, top-up</div>
             </div>
             <div class="radio-sm" id="r-renewal"><div class="rdot"></div></div>
@@ -491,13 +532,14 @@ body{
              data-placeholder="E.g. I received a login alert I don't recognise">
           <div class="issue-row">
             <div class="issue-icon">
-              <svg width="18" height="20" viewBox="0 0 18 20" fill="none">
-                <path d="M9 1L1 5v5c0 4.4 3.4 8.5 8 9.5 4.6-1 8-5.1 8-9.5V5z" stroke="#757575" stroke-width="1.5" stroke-linejoin="round"/>
-                <path d="M6 10l2 2 4-4" stroke="#757575" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M12 8.74438V14.0551M10.6203 3.81071L2.22 18.5425C1.59882 19.6319 2.36693 21 3.59974 21H20.4004C21.6332 21 22.4012 19.6319 21.78 18.5425L13.3798 3.81071C12.7634 2.72976 11.2367 2.72976 10.6203 3.81071Z" stroke="#BE123C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 17.7316C11.7794 17.7316 11.6006 17.5487 11.6006 17.3231C11.6006 17.0974 11.7794 16.9146 12 16.9146" stroke="#BE123C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 17.7316C12.2205 17.7316 12.3993 17.5487 12.3993 17.3231C12.3993 17.0974 12.2205 16.9146 12 16.9146" stroke="#BE123C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
             <div class="issue-text">
-              <div class="issue-name">Account security</div>
+              <div class="issue-name">Account hacked or stolen</div>
               <div class="issue-sub">Suspicious login, SIM swap, or fraud</div>
             </div>
             <div class="radio-sm" id="r-hacked"><div class="rdot"></div></div>
@@ -518,15 +560,14 @@ body{
              data-placeholder="E.g. I need help with something not listed">
           <div class="issue-row">
             <div class="issue-icon">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <circle cx="10" cy="10" r="8.25" stroke="#757575" stroke-width="1.5"/>
-                <line x1="10" y1="9.5" x2="10" y2="14" stroke="#757575" stroke-width="1.8" stroke-linecap="round"/>
-                <circle cx="10" cy="6.5" r="1.3" fill="#757575"/>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M2.35712 21.6426H21.6335" stroke="#757575" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10.3883 17.5645L5.56903 18.4284L6.37223 13.5649L17.1835 2.83016C17.3328 2.68021 17.5105 2.56119 17.7063 2.47998C17.902 2.39875 18.1119 2.35693 18.3241 2.35693C18.536 2.35693 18.7461 2.39875 18.9418 2.47998C19.1376 2.56119 19.3153 2.68021 19.4646 2.83016L21.1674 4.52597C21.318 4.67469 21.4376 4.85162 21.5191 5.04658C21.6005 5.24153 21.6426 5.45064 21.6426 5.66183C21.6426 5.87302 21.6005 6.08213 21.5191 6.27708C21.4376 6.47204 21.318 6.64897 21.1674 6.79769L10.3883 17.5645Z" stroke="#757575" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
             <div class="issue-text">
               <div class="issue-name">Something else</div>
-              <div class="issue-sub">Not listed above</div>
+              <div class="issue-sub">I'll describe it</div>
             </div>
             <div class="radio-sm" id="r-other"><div class="rdot"></div></div>
           </div>
@@ -544,22 +585,29 @@ body{
       <!-- Where should we reply -->
       <div class="section" style="padding-bottom:8px">
         <div class="section-title">Where should we reply?</div>
-        <div class="section-hint">We'll follow up on your chosen channel</div>
+        <div class="section-hint">We'll continue our conversation where you choose</div>
 
-        <!-- Email — pre-filled, no input expansion needed -->
+        <!-- Email — expands with pre-filled address -->
         <div class="reply-card" id="card-email" onclick="pickReply('email')">
           <div class="reply-row">
             <div class="reply-icon">
-              <svg width="20" height="16" viewBox="0 0 20 16" fill="none">
-                <rect x=".75" y=".75" width="18.5" height="14.5" rx="2.25" stroke="#757575" stroke-width="1.5"/>
-                <polyline points="0.75,3 10,9.5 19.25,3" stroke="#757575" stroke-width="1.5" stroke-linejoin="round" fill="none"/>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M2 7.75752L11.1243 13.5639C11.6511 13.8992 12.3489 13.8992 12.8757 13.5639L22 7.75752M2 18.3636V5.63631C2 4.85531 2.68879 4.22217 3.53846 4.22217H20.4615C21.3112 4.22217 22 4.85529 22 5.63631V18.3636C22 19.1446 21.3112 19.7777 20.4615 19.7777H3.53846C2.68879 19.7777 2 19.1446 2 18.3636Z" stroke="#757575" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
             <div class="reply-text">
               <div class="reply-name">Email</div>
-              <div class="reply-sub">jerryseinfeld@gmail.com · From your account</div>
+              <div class="reply-sub">jerryseinfeld@gmail.com</div>
             </div>
             <div class="radio-lg" id="r-email"><div class="rdot"></div></div>
+          </div>
+          <div class="email-expand" id="email-expand">
+            <div class="email-divider"></div>
+            <input class="email-input" type="email" id="email-input"
+              value="jerryseinfeld@gmail.com"
+              placeholder="Your email address"
+              onclick="event.stopPropagation()"
+              autocomplete="email"/>
           </div>
         </div>
 
@@ -567,9 +615,12 @@ body{
         <div class="reply-card" id="card-whatsapp" onclick="pickReply('whatsapp')">
           <div class="reply-row">
             <div class="reply-icon">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M10 1.5C5.3 1.5 1.5 5.3 1.5 10c0 1.6.44 3.1 1.2 4.4L1.5 18.5l4.3-1.1A8.5 8.5 0 0 0 10 18.5c4.7 0 8.5-3.8 8.5-8.5S14.7 1.5 10 1.5z" stroke="#757575" stroke-width="1.5" stroke-linejoin="round"/>
-                <path d="M7.5 8.5c.2.7.6 1.5 1.3 2.2.7.7 1.5 1.1 2.2 1.3L12 11c.3-.3.7-.3 1-.1l1.8 1c.3.2.4.5.2.8-.5 1-1.5 1.8-2.5 1.5C9 13.5 6 10.5 5.7 7.5c-.2-1 .6-2 1.5-2.5.3-.2.6-.1.8.2l1 1.8c.2.3.1.7-.1 1z" stroke="#757575" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <g clip-path="url(#clip-wa)">
+                  <path d="M11.9968 1.55371C6.30719 1.55548 1.55364 6.31518 1.55366 12.0001C1.55367 14.0497 2.16368 16.0743 3.30221 17.7859L1.55042 22.4466L7.41649 21.3859C8.84944 22.0861 10.423 22.4371 11.9968 22.4382C17.6914 22.4419 22.4495 17.6886 22.4495 12.0001C22.4495 6.31815 17.6896 1.55035 11.9968 1.55371Z" stroke="#757575" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M12.5721 16.6008C14.0189 17.5295 15.5287 16.815 16.5572 16.0273C17.2185 15.5208 17.1972 14.5624 16.6268 13.9553L15.3711 12.6184C14.9182 13.0712 14.0358 13.2954 13.4227 13.1087C12.1049 12.7077 11.5518 12.021 11.1036 11.3227C10.5888 10.5208 11.1701 9.32312 11.6229 8.87031L10.2375 7.60547C9.70906 7.12307 8.90716 7.04125 8.43815 7.58159C7.4418 8.7294 6.80759 10.5134 7.53259 11.6426C8.81297 13.6369 10.5778 15.3206 12.5721 16.6008Z" stroke="#757575" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+                <defs><clipPath id="clip-wa"><rect width="24" height="24" fill="white"/></clipPath></defs>
               </svg>
             </div>
             <div class="reply-text">
@@ -649,12 +700,20 @@ function autoGrow(el) {
   el.style.height = el.scrollHeight + 'px';
 }
 
+// ── Copy ICCID ───────────────────────────────────────
+function copyIccid(e) {
+  e.stopPropagation();
+  navigator.clipboard.writeText('213761728368127638761').then(function() {
+    showToast('ICCID copied');
+  }).catch(function() {
+    showToast('ICCID: 213761728368127638761');
+  });
+}
+
 // ── Issue selection ──────────────────────────────────
 function pickIssue(e, key) {
-  // If already selected, just let user interact with textarea
   if (activeIssue === key) return;
 
-  // Deselect previous
   if (activeIssue) {
     var prev = activeIssue;
     document.getElementById('issue-' + prev).classList.remove('selected');
@@ -663,23 +722,20 @@ function pickIssue(e, key) {
     if (ta) { ta.value = ''; ta.style.height = ''; }
   }
 
-  // Select new
   activeIssue = key;
   var card = document.getElementById('issue-' + key);
   card.classList.add('selected');
   document.getElementById('r-' + key).classList.add('sel');
 
-  // Focus textarea after transition
   setTimeout(function() {
     var ta = document.getElementById('ta-' + key);
     if (ta) ta.focus();
   }, 260);
 
-  // Scroll card into view with some breathing room
   setTimeout(function() {
     var sa = document.getElementById('scroll-area');
-    var cardTop = card.offsetTop - 62; // offset from top of content
-    var cardBottom = cardTop + card.offsetHeight + 160; // 160px for bottom bar
+    var cardTop = card.offsetTop - 62;
+    var cardBottom = cardTop + card.offsetHeight + 160;
     var scrollBottom = sa.scrollTop + sa.clientHeight;
     if (cardBottom > scrollBottom) {
       sa.scrollTo({ top: sa.scrollTop + (cardBottom - scrollBottom) + 16, behavior: 'smooth' });
@@ -691,16 +747,15 @@ function pickIssue(e, key) {
 function pickReply(ch) {
   if (activeReply === ch) {
     if (ch === 'whatsapp') document.getElementById('wa-input').focus();
+    if (ch === 'email') document.getElementById('email-input').focus();
     return;
   }
 
-  // Deselect previous
   if (activeReply) {
     document.getElementById('card-' + activeReply).classList.remove('selected');
     document.getElementById('r-' + activeReply).classList.remove('sel');
   }
 
-  // Select new
   activeReply = ch;
   document.getElementById('card-' + ch).classList.add('selected');
   document.getElementById('r-' + ch).classList.add('sel');
@@ -708,6 +763,13 @@ function pickReply(ch) {
   if (ch === 'whatsapp') {
     setTimeout(function() {
       document.getElementById('wa-input').focus();
+    }, 230);
+  }
+  if (ch === 'email') {
+    setTimeout(function() {
+      var inp = document.getElementById('email-input');
+      inp.focus();
+      inp.select();
     }, 230);
   }
 }
@@ -742,7 +804,6 @@ function showToast(msg) {
 function resetAll() {
   document.getElementById('success-screen').classList.remove('show');
 
-  // Reset issues
   if (activeIssue) {
     document.getElementById('issue-' + activeIssue).classList.remove('selected');
     document.getElementById('r-' + activeIssue).classList.remove('sel');
@@ -750,18 +811,17 @@ function resetAll() {
     if (ta) { ta.value = ''; ta.style.height = ''; }
     activeIssue = null;
   }
-  // Clear all textareas just in case
   document.querySelectorAll('.what-textarea').forEach(function(ta) {
     ta.value = ''; ta.style.height = '';
   });
 
-  // Reset reply
   if (activeReply) {
     document.getElementById('card-' + activeReply).classList.remove('selected');
     document.getElementById('r-' + activeReply).classList.remove('sel');
     activeReply = null;
   }
   document.getElementById('wa-input').value = '';
+  document.getElementById('email-input').value = 'jerryseinfeld@gmail.com';
 
   document.getElementById('scroll-area').scrollTo({ top: 0, behavior: 'smooth' });
 }
