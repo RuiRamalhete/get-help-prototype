@@ -198,7 +198,7 @@ body{
   flex-shrink:0;
 }
 .reply-text{flex:1;min-width:0}
-.reply-name{font-size:16px;font-weight:500;line-height:24px;color:#212121;letter-spacing:-0.2px}
+.reply-name{font-size:14px;font-weight:500;line-height:22px;color:#212121;letter-spacing:-0.2px}
 .reply-sub{font-size:14px;font-weight:500;line-height:22px;color:#757575;letter-spacing:-0.2px}
 
 /* ── WhatsApp phone expand ── */
@@ -233,7 +233,7 @@ body{
 }
 .send-btn{
   position:relative;z-index:1;
-  width:361px;height:48px;
+  width:100%;height:48px;
   background:#212121;color:#fff;
   border:none;border-radius:12px;
   font-family:'Inter',sans-serif;
@@ -348,7 +348,7 @@ body{
       <!-- Heading -->
       <div class="page-header">
         <h1 class="page-title">Get help</h1>
-        <p class="page-subtitle">Tell us what's going wrong and we'll help you fix it.</p>
+        <p class="page-subtitle">Tell us what's happening and we'll get back to you.</p>
       </div>
 
       <!-- Your plan -->
@@ -363,7 +363,6 @@ body{
                 <rect x="2.5" y="8" width="4" height="2" rx="1" fill="#757575"/>
               </svg>
             </div>
-            <span class="plan-name">Plan</span>
             <span class="plan-value">Unlimited</span>
           </div>
         </div>
@@ -371,7 +370,7 @@ body{
 
       <!-- What's the issue -->
       <div class="section">
-        <div class="section-title">What's the issue?</div>
+        <div class="section-title">What can we help with?</div>
 
         <!-- Billing issue -->
         <div class="issue-card" id="issue-billing"
@@ -471,7 +470,7 @@ body{
               </svg>
             </div>
             <div class="issue-text">
-              <div class="issue-name">Plan renewal</div>
+              <div class="issue-name">Plan &amp; renewal</div>
               <div class="issue-sub">Expiry, auto-renewal, top-up</div>
             </div>
             <div class="radio-sm" id="r-renewal"><div class="rdot"></div></div>
@@ -498,7 +497,7 @@ body{
               </svg>
             </div>
             <div class="issue-text">
-              <div class="issue-name">Account hacked or stolen</div>
+              <div class="issue-name">Account security</div>
               <div class="issue-sub">Suspicious login, SIM swap, or fraud</div>
             </div>
             <div class="radio-sm" id="r-hacked"><div class="rdot"></div></div>
@@ -516,7 +515,7 @@ body{
         <!-- Something else -->
         <div class="issue-card" id="issue-other"
              onclick="pickIssue(event,'other')"
-             data-placeholder="Describe your issue in detail">
+             data-placeholder="E.g. I need help with something not listed">
           <div class="issue-row">
             <div class="issue-icon">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -527,7 +526,7 @@ body{
             </div>
             <div class="issue-text">
               <div class="issue-name">Something else</div>
-              <div class="issue-sub">I'll describe it</div>
+              <div class="issue-sub">Not listed above</div>
             </div>
             <div class="radio-sm" id="r-other"><div class="rdot"></div></div>
           </div>
@@ -535,7 +534,7 @@ body{
             <div class="issue-divider"></div>
             <span class="what-label">What's happening?</span>
             <textarea class="what-textarea" id="ta-other"
-              placeholder="Describe your issue in detail"
+              placeholder="E.g. I need help with something not listed"
               onclick="event.stopPropagation()"
               oninput="autoGrow(this)"></textarea>
           </div>
@@ -545,7 +544,7 @@ body{
       <!-- Where should we reply -->
       <div class="section" style="padding-bottom:8px">
         <div class="section-title">Where should we reply?</div>
-        <div class="section-hint">We'll continue our conversation where you choose</div>
+        <div class="section-hint">We'll follow up on your chosen channel</div>
 
         <!-- Email — pre-filled, no input expansion needed -->
         <div class="reply-card" id="card-email" onclick="pickReply('email')">
@@ -633,8 +632,8 @@ body{
       </svg>
     </div>
     <h2 class="s-title">Message sent!</h2>
-    <p class="s-body">We've received your request and will follow up via your selected channel shortly.</p>
-    <button class="restart-btn" onclick="resetAll()">Start over</button>
+    <p class="s-body" id="s-body">We'll get back to you shortly.</p>
+    <button class="restart-btn" onclick="resetAll()">Done</button>
   </div>
 
 </div><!-- /phone -->
@@ -720,6 +719,13 @@ function handleSend() {
     document.getElementById('scroll-area').scrollTo({ top: 0, behavior: 'smooth' });
     return;
   }
+  if (!activeReply) {
+    showToast('Please choose how you\u2019d like to hear back');
+    document.getElementById('scroll-area').scrollTo({ top: 9999, behavior: 'smooth' });
+    return;
+  }
+  var channelLabel = activeReply === 'email' ? 'email' : 'WhatsApp';
+  document.getElementById('s-body').textContent = 'We\'ll get back to you via ' + channelLabel + ' shortly.';
   document.getElementById('success-screen').classList.add('show');
 }
 
