@@ -86,13 +86,6 @@ body{
 .plan-icon{width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .plan-label{flex:1;font-size:14px;font-weight:500;line-height:22px;color:#757575;letter-spacing:-0.2px}
 .plan-value{font-size:14px;font-weight:600;line-height:22px;color:#212121;letter-spacing:-0.2px}
-.plan-iccid{font-size:14px;font-weight:600;line-height:22px;color:#212121;letter-spacing:-0.2px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.copy-btn{
-  width:20px;height:20px;display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;cursor:pointer;opacity:.5;transition:opacity .15s;
-  background:none;border:none;padding:0;
-}
-.copy-btn:active{opacity:1}
 
 /* ── Issue cards ── */
 .issue-card{
@@ -391,24 +384,6 @@ body{
             <span class="plan-label">Plan</span>
             <span class="plan-value">Standard</span>
           </div>
-          <div class="plan-row">
-            <div class="plan-icon">
-              <svg width="14" height="17" viewBox="0 0 14 17" fill="none">
-                <path d="M1 14.5V2.5C1 1.67 1.67 1 2.5 1H9.12L13 5V14.5C13 15.33 12.33 16 11.5 16H2.5C1.67 16 1 15.33 1 14.5Z" stroke="#757575" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M9 1V5H13" stroke="#757575" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-                <rect x="3" y="7.5" width="8" height="5.5" rx="1.2" stroke="#757575" stroke-width="1.3"/>
-                <line x1="6.5" y1="7.5" x2="6.5" y2="13" stroke="#757575" stroke-width="1.3"/>
-              </svg>
-            </div>
-            <span class="plan-label">SIM ICCID</span>
-            <span class="plan-iccid">213761728368127638761</span>
-            <button class="copy-btn" onclick="copyIccid(event)" title="Copy ICCID">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <rect x="5" y="5" width="9" height="9" rx="1.5" stroke="#757575" stroke-width="1.3"/>
-                <path d="M3 11H2.5C1.67 11 1 10.33 1 9.5V2.5C1 1.67 1.67 1 2.5 1H9.5C10.33 1 11 1.67 11 2.5V3" stroke="#757575" stroke-width="1.3" stroke-linecap="round"/>
-              </svg>
-            </button>
-          </div>
         </div>
       </div>
 
@@ -696,16 +671,6 @@ var toastTimer;
 function autoGrow(el) {
   el.style.height = 'auto';
   el.style.height = el.scrollHeight + 'px';
-}
-
-// ── Copy ICCID ───────────────────────────────────────
-function copyIccid(e) {
-  e.stopPropagation();
-  navigator.clipboard.writeText('213761728368127638761').then(function() {
-    showToast('ICCID copied');
-  }).catch(function() {
-    showToast('ICCID: 213761728368127638761');
-  });
 }
 
 // ── Issue selection ──────────────────────────────────
